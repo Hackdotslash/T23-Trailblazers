@@ -1,22 +1,27 @@
 // import React, { Component } from "react";
 import React, { useState, useEffect } from "react";
-// import SimpleStorageContract from "./contracts/SimpleStorage.json";
-import SimpleStorage from "./contracts/SimpleStorage.json";
+import UploadRoute from "./Components/UploadRoute";
+import DownloadRoute from "./Components/DownloadRoute";
+import VerifyRoute from "./Components/VerifyRoute";
+import Home from "./Components/HomeRoute";
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import { ContractProvider } from "./Context/ContractContext";
+
+import MyContract from "./contracts/MyContract.json";
 import getWeb3 from "./getWeb3";
 
 import "./App.css";
 
 function App() {
   const [accounts, setAccounts] = useState();
-  const [SimpleStorageInstance, setSimpleStorageInstance] = useState();
-  const [obj, setObj] = useState({
-    loaded: false,
-    kycAddress: "",
-  });
-  // Similar to componentDidMount and componentDidUpdate:
+  const [MyContractInstance, setMyContractInstance] = useState();
+
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     async function ConfigureWithTruffle() {
       try {
+        // await window.ethereum.enable();
         // Get network provider and web3 instance.
         const web3 = await getWeb3();
 
@@ -26,16 +31,16 @@ function App() {
         setAccounts(accounts);
         // Get the contract instance.
         const networkId = await web3.eth.net.getId();
-        const SimpleStorageInstance = new web3.eth.Contract(
-          SimpleStorage.abi,
-          SimpleStorage.networks[networkId] &&
-            SimpleStorage.networks[networkId].address
+        const MyContractInstance = new web3.eth.Contract(
+          MyContract.abi,
+          MyContract.networks[networkId] &&
+            MyContract.networks[networkId].address
         );
-        setSimpleStorageInstance(SimpleStorageInstance);
+        console.log(MyContractInstance);
+        setMyContractInstance(MyContractInstance);
 
-        // Set web3, accounts, and contract to the state, and then proceed with an
-        // example of interacting with the contract's methods.
-        setObj({ ...obj, loaded: true });
+        console.log(loading);
+        setLoading(false);
       } catch (error) {
         // Catch any errors for any of the above operations.
         alert(
@@ -45,13 +50,26 @@ function App() {
       }
     }
     ConfigureWithTruffle();
+    // setLoading(false);
   }, []);
 
-  console.log(obj);
+  console.log(loading);
   return (
-    <div>
-      <h1>Starter Project Files</h1>
-    </div>
+    <>
+      {loading ? (
+        <p>loading</p>
+      ) : (
+        <ContractProvider value={{ accounts, MyContractInstance }}>
+          <Router>
+            <Route path="/upload" exact component={UploadRoute} />
+            <Route path="/download" exact component={DownloadRoute} />
+            <Route path="/verify" exact component={VerifyRoute} />
+
+            <Route path="/" exact component={Home} />
+          </Router>
+        </ContractProvider>
+      )}
+    </>
   );
 }
 
