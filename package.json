@@ -1,5 +1,5 @@
 {
-  "name": "verify_chain",
+  "name": "ipfs_learning",
   "version": "1.0.0",
   "description": "",
   "main": "truffle-config.js",
@@ -11,18 +11,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Hackdotslash/T23-Trailblazers.git"
+    "url": "git+https://github.com/AAA530/IPFS_Learning.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/AAA530/Truffle_react_starter/issues"
+    "url": "https://github.com/AAA530/IPFS_Learning/issues"
   },
-  "homepage": "https://github.com/AAA530/Truffle_react_starter#readme",
+  "homepage": "https://github.com/AAA530/IPFS_Learning#readme",
   "dependencies": {
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "chai-bignumber": "^3.0.0",
-    "chai-bn": "^0.2.1"
+    "chai-bn": "^0.2.1",
+    "moment": "^2.29.1"
   }
 }
