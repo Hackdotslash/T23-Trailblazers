@@ -27,6 +27,7 @@ function App() {
 
         // Use web3 to get the user's accounts.
         const accounts = await web3.eth.getAccounts();
+        console.log(accounts[0]);
 
         setAccounts(accounts);
         // Get the contract instance.
